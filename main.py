@@ -60,9 +60,9 @@ transform = transforms.Compose([
 ])
 
 
-# @app.get("/")
-# def main():
-#     return FileResponse('index.html')
+@app.get("/")
+def main():
+    return FileResponse('index.html')
 
 @app.post("/images/upload")
 async def upload_image(file: UploadFile = File(...)):
@@ -75,6 +75,6 @@ async def upload_image(file: UploadFile = File(...)):
     return {"predicted_class": my_dict[predicted_class]}
 
 
-@app.get("/")
-def get_ok():
-    return {"success": 200}
+# @app.get("/")
+# def get_ok():
+#     return {"success": 200}
