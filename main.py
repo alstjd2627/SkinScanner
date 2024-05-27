@@ -14,7 +14,7 @@ app = FastAPI()
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://alstjd2627.github.io"],  # 올바른 도메인을 설정합니다.
+    allow_origins=["*"],  # 올바른 도메인을 설정합니다.
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
