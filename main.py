@@ -64,7 +64,7 @@ transform = transforms.Compose([
 # def main():
 #     return FileResponse('index.html')
 
-@app.post("https://skinscanner/images/upload")
+@app.post("https://skinscanner.site/images/upload")
 async def upload_image(file: UploadFile = File(...)):
     contents = await file.read()
     img = Image.open(io.BytesIO(contents)).convert("RGB")
