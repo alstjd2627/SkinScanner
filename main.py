@@ -1,4 +1,5 @@
 import io
+
 import torch
 from torch import nn
 from fastapi import FastAPI, File, UploadFile
@@ -6,8 +7,20 @@ from fastapi.responses import FileResponse
 from torchvision import transforms
 from PIL import Image
 from efficientnet_pytorch import EfficientNet
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 또는 React 앱의 도메인을 명시
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 my_dict = {
     0: 'Actinic keratoses',
