@@ -74,4 +74,8 @@ async def upload_image(file: UploadFile = File(...)):
     predicted_class = torch.argmax(output, dim=1).item()
     return {"predicted_class": my_dict[predicted_class]}
 
+@app.get
+async def getRoot():
+    return {"success" : 200}
+
 
