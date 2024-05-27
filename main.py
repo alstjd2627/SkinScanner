@@ -9,14 +9,11 @@ from PIL import Image
 from efficientnet_pytorch import EfficientNet
 from fastapi.middleware.cors import CORSMiddleware
 
-
-
 app = FastAPI()
-
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 또는 React 앱의 도메인을 명시
+    allow_origins=["https://skinscanner.site"],  # 또는 React 앱의 도메인을 명시
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,11 +43,12 @@ class CustomModel(nn.Module):
     def forward(self, x):
         return self.model(x)
 
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model_state_dict = torch.load("saved_model.pth", map_location=device)
 
 model = CustomModel()
-model.load_state_dict(model_state_dict,strict=False)
+model.load_state_dict(model_state_dict, strict=False)
 model = model.to(device)
 model.eval()
 
@@ -59,6 +57,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # EfficientNet-B3에 맞는 정규화 값
 ])
+
 
 # @app.get("/")
 # def main():
@@ -77,4 +76,4 @@ async def upload_image(file: UploadFile = File(...)):
 
 @app.get("/")
 def get_ok():
-    return {"success":200}
+    return {"success": 200}
