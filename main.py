@@ -60,9 +60,9 @@ transform = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # EfficientNet-B3에 맞는 정규화 값
 ])
 
-@app.get("/")
-def main():
-    return FileResponse('index.html')
+# @app.get("/")
+# def main():
+#     return FileResponse('index.html')
 
 @app.post("/images/upload")
 async def upload_image(file: UploadFile = File(...)):
@@ -75,3 +75,6 @@ async def upload_image(file: UploadFile = File(...)):
     return {"predicted_class": my_dict[predicted_class]}
 
 
+@app.get("/")
+def get_ok():
+    return {"success":200}
