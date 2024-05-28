@@ -35,14 +35,17 @@ my_dict = {
 }
 
 
+
 class CustomModel(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes=11):
         super(CustomModel, self).__init__()
-        self.model = EfficientNet.from_name('efficientnet-b3')
+        self.model = EfficientNet.from_pretrained('efficientnet-b3')
         self.model._fc = nn.Linear(self.model._fc.in_features, 11)  # 클래스 개수에 맞게 조정
 
     def forward(self, x):
         return self.model(x)
+
+
 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -64,8 +67,10 @@ transform = transforms.Compose([
 def main():
     return FileResponse('index.html')
 
+
 @app.post("/images/upload")
 async def upload_image(file: UploadFile = File(...)):
+    model.eval()
     contents = await file.read()
     img = Image.open(io.BytesIO(contents)).convert("RGB")
     img = transform(img).unsqueeze(0).to(device)
@@ -73,7 +78,6 @@ async def upload_image(file: UploadFile = File(...)):
         output = model(img)
     predicted_class = torch.argmax(output, dim=1).item()
     return {"predicted_class": my_dict[predicted_class]}
-
 
 # @app.get("/")
 # def get_ok():
